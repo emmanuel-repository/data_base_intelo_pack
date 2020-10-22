@@ -16,6 +16,23 @@
 CREATE DATABASE IF NOT EXISTS `intelo_pack` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `intelo_pack`;
 
+-- Volcando estructura para tabla intelo_pack.auditoria_cross_overs
+CREATE TABLE IF NOT EXISTS `auditoria_cross_overs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `paquete_id` int(11) NOT NULL,
+  `empleado_operador_id` int(11) NOT NULL,
+  `transporte_id` int(11) NOT NULL,
+  `empleado_carga_id` int(11) NOT NULL,
+  `tipo` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla intelo_pack.auditoria_cross_overs: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `auditoria_cross_overs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auditoria_cross_overs` ENABLE KEYS */;
+
 -- Volcando estructura para tabla intelo_pack.clientes
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -43,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   CONSTRAINT `clientes_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.clientes: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla intelo_pack.clientes: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
 INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_1_cliente`, `apellido_2_cliente`, `razon_social_cliente`, `rfc_cliente`, `estado_cliente`, `municipio_cliente`, `codigo_postal_cliente`, `colonia_cliente`, `calle_cliente`, `no_exterior_cliente`, `no_interior_cliente`, `email_cliente`, `telefono_1_cliente`, `telefono_2_cliente`, `estatus_cliente`, `empleado_id`, `created_at`, `updated_at`) VALUES
 	(6, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'San José el Alto', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '1', 1, '2020-06-12 15:34:46', '2020-08-25 05:02:55');
@@ -197,10 +214,12 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.migrations: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla intelo_pack.migrations: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+	(13, '2020_10_22_123041_create_auditoria_cross_overs_table', 1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intelo_pack.paquetes
