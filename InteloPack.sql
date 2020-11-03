@@ -1,39 +1,30 @@
--- --------------------------------------------------------
--- Host:                         localhost
--- Versión del servidor:         10.4.11-MariaDB - mariadb.org binary distribution
--- SO del servidor:              Win64
--- HeidiSQL Versión:             11.0.0.5919
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Volcando estructura de base de datos para intelo_pack
 CREATE DATABASE IF NOT EXISTS `intelo_pack` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `intelo_pack`;
 
--- Volcando estructura para tabla intelo_pack.auditoria_cross_overs
 CREATE TABLE IF NOT EXISTS `auditoria_cross_overs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `paquete_id` int(11) NOT NULL,
-  `empleado_operador_id` int(11) NOT NULL,
-  `transporte_id` int(11) NOT NULL,
-  `empleado_carga_id` int(11) NOT NULL,
-  `tipo` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paquete_id` int(11) DEFAULT NULL,
+  `socursal_id` int(11) DEFAULT NULL,
+  `empleado_operador_id` int(11) DEFAULT NULL,
+  `transporte_id` int(11) DEFAULT NULL,
+  `empleado_carga_id` int(11) DEFAULT NULL,
+  `tipo` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.auditoria_cross_overs: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `auditoria_cross_overs` DISABLE KEYS */;
+INSERT INTO `auditoria_cross_overs` (`id`, `paquete_id`, `socursal_id`, `empleado_operador_id`, `transporte_id`, `empleado_carga_id`, `tipo`, `created_at`, `updated_at`) VALUES
+	(13, 9, 1, 6, 7, 1, 'CARGA PAQUETE', '2020-10-30 18:34:25', '2020-10-30 18:34:25');
 /*!40000 ALTER TABLE `auditoria_cross_overs` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.clientes
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre_cliente` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -60,13 +51,11 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   CONSTRAINT `clientes_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.clientes: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
 INSERT INTO `clientes` (`id`, `nombre_cliente`, `apellido_1_cliente`, `apellido_2_cliente`, `razon_social_cliente`, `rfc_cliente`, `estado_cliente`, `municipio_cliente`, `codigo_postal_cliente`, `colonia_cliente`, `calle_cliente`, `no_exterior_cliente`, `no_interior_cliente`, `email_cliente`, `telefono_1_cliente`, `telefono_2_cliente`, `estatus_cliente`, `empleado_id`, `created_at`, `updated_at`) VALUES
 	(6, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'San José el Alto', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '1', 1, '2020-06-12 15:34:46', '2020-08-25 05:02:55');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.cross_overs
 CREATE TABLE IF NOT EXISTS `cross_overs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `hora_cross_over` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -85,13 +74,14 @@ CREATE TABLE IF NOT EXISTS `cross_overs` (
   CONSTRAINT `cross_over_paquete_id_foreign` FOREIGN KEY (`socursal_id`) REFERENCES `socursals` (`id`),
   CONSTRAINT `cross_overs_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   CONSTRAINT `cross_overs_paquete_id_foreign` FOREIGN KEY (`paquete_id`) REFERENCES `paquetes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.cross_overs: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `cross_overs` DISABLE KEYS */;
+INSERT INTO `cross_overs` (`id`, `hora_cross_over`, `fecha_cross_over`, `estatus_cross_over`, `paquete_id`, `empleado_id`, `socursal_id`, `transporte_id`, `created_at`, `updated_at`) VALUES
+	(1, '5:20:40 pm', '2020-10-22', '1', 9, 1, 1, NULL, '2020-10-22 17:20:40', '2020-10-22 17:20:40'),
+	(19, '6:34:24 pm', '2020-10-30', '2', 9, 1, 1, 7, '2020-10-30 18:34:25', '2020-10-30 18:34:25');
 /*!40000 ALTER TABLE `cross_overs` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.empleados
 CREATE TABLE IF NOT EXISTS `empleados` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `no_empleado` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -119,18 +109,17 @@ CREATE TABLE IF NOT EXISTS `empleados` (
   CONSTRAINT `empleados_tipo_transporte_id_foreign` FOREIGN KEY (`tipo_transporte_id`) REFERENCES `tipo_transportes` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.empleados: ~42 rows (aproximadamente)
 /*!40000 ALTER TABLE `empleados` DISABLE KEYS */;
 INSERT INTO `empleados` (`id`, `no_empleado`, `nombre_empleado`, `apellido_1_empleado`, `apellido_2_empleado`, `email`, `email_verified_at`, `password`, `estatus_empleado`, `estatus_asignado_transporte`, `tipo_empleado_id`, `tipo_transporte_id`, `socursal_id`, `remember_token`, `created_at`, `updated_at`) VALUES
 	(1, 'EMP-1', 'EMMANIUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'emmanuel.hernandez@intelo.com.mx', NULL, '$2y$10$xQuvtT.7uFB4nl40gI9UjOYLhZdCYGWrpwB6oygs7QudgXudg7feu', '1', '0', 1, NULL, 1, '8Hh064HgoYgSkVD4efCKUWeEb9AnoH63AN3bYqP5FkcFWlJhb2uxmbmFDfMy', '2020-06-09 13:56:12', '2020-09-18 22:41:28'),
 	(4, 'EMP-4', 'ULISE', 'MAYA', 'CASTILLO', 'ulises.castillo@intelo.com.mx', NULL, '$2y$10$nrqfkhfMJAFKKsg9Sr304OS6CYwsdsTpVqTTWb8sNx5LgLHRFY90K', '1', '0', 1, NULL, 2, NULL, '2020-06-10 15:02:30', '2020-06-19 15:51:42'),
-	(5, 'EMP-5', 'ERNESTO', 'MARTINEZ', 'SALAZAR', 'ernesto@intelo.com.mx', NULL, '$2y$10$NmCXkkqjwSo6LuqVS5hQ4.62XbU7s1W9xP/0LK.MBc0GXrZa.XLsa', '1', '1', 4, NULL, 1, NULL, '2020-07-07 16:13:39', '2020-07-07 16:13:39'),
+	(5, 'EMP-5', 'ERNESTO', 'MARTINEZ', 'SALAZAR', 'ernesto@intelo.com.mx', NULL, '$2y$10$NmCXkkqjwSo6LuqVS5hQ4.62XbU7s1W9xP/0LK.MBc0GXrZa.XLsa', '1', '0', 4, NULL, 1, NULL, '2020-07-07 16:13:39', '2020-07-07 16:13:39'),
 	(6, 'EMP-6', 'MIGUEL', 'GOMEZ', 'HERNANDEZ', 'miguel.gomez@intelo.com.mx', NULL, '$2y$10$g91kGf3EFiZ7uOW4dg2erehkN8Nlb243GCN6d3vRaPIvMNcSrVsIm', '1', '1', 4, NULL, 1, NULL, '2020-07-07 16:15:51', '2020-07-07 16:15:51'),
 	(7, 'EMP-7', 'OBED', 'DEL VALLE', 'FELIX', 'obed.delvalle@gmail.com', NULL, '$2y$10$BDnC/6/y.SwYDJYWYS7HDetvWC7NPeqq/ecm4U7TYaD78aBm6r/Ha', '1', '0', 3, NULL, 1, NULL, '2020-08-05 16:36:09', '2020-08-05 16:36:09'),
 	(8, 'EMP-8', 'LUIS', 'MARTINEZ', 'SALAZAR', 'luis.martinez@intelo.com.mx', NULL, '$2y$10$ee0nw6Ix0DEeghlUNh7VruI3FBpjbAiqoQHQ.OKNmVg7FW82srtOW', '1', '1', 4, NULL, 1, NULL, '2020-08-05 17:52:39', '2020-08-05 17:52:39'),
 	(9, 'EMP-9', 'CESAR', 'MORELOS', 'LOPEZ', 'cesar.morelos@intelo.com.mx', NULL, '$2y$10$/14xOPvY4uNxBRqz6VEeNOB/ulsaK0ezT1baY1brxpTgW9YHqfGiy', '1', '0', 1, NULL, 1, NULL, '2020-08-25 21:23:36', '2020-08-25 21:23:36'),
 	(10, 'EMP-10', 'LETICIA', 'GAMBOA', 'N', 'leticia.gambo@intelo.com.mx', NULL, '$2y$10$Ao0vnISKtaZN2V19Ds18reiWgr37/NqyoXlgRUT1D..7FJ10aGrJC', '1', '0', 2, NULL, 1, NULL, '2020-08-25 21:27:58', '2020-08-25 21:27:58'),
-	(11, 'EMP-11', 'ADRIANA', 'PEREZ', 'N', 'adriana.perez@intelo.com.mx', NULL, '$2y$10$9//S5.311QShn9lD2GBv8ut8v/2GtgZGpa.pBDUX5LXdHalLdM1kC', '1', '0', 2, NULL, 1, NULL, '2020-08-25 21:29:24', '2020-08-25 21:29:24'),
+	(11, 'EMP-11', 'ADRIANA', 'PEREZ', 'N', 'adriana.perez@intelo.com.mx', NULL, '$2y$10$9//S5.311QShn9lD2GBv8ut8v/2GtgZGpa.pBDUX5LXdHalLdM1kC', '1', '0', 2, NULL, 1, NULL, '2020-08-25 21:29:24', '2020-10-27 13:16:47'),
 	(12, 'EMP-12', 'MIGUEL', 'LOPEZ', 'LOZANO', 'miguel.lopez@intelo.com.mx', NULL, '$2y$10$sXv1ZU7pXDnWPKPSqUFR4OyLjMoqqjGdDkstbTGdm0s3tZh0LoQ9O', '1', '0', 4, NULL, 2, NULL, '2020-08-25 21:32:12', '2020-08-25 21:32:12'),
 	(13, 'EMP-13', 'OSCAR', 'MEDINA', 'LAZARO', 'oscar.medina@intelo.com.mx', NULL, '$2y$10$Ql2EQ4bityzmu7ahHVtKQOBxn5vB16tTF9otqP9DfpFkMvD4UHLOu', '1', '0', 4, NULL, 2, NULL, '2020-08-25 21:32:55', '2020-08-25 21:32:55'),
 	(14, 'EMP-14', 'GUILLERMO', 'HIDALGO', 'SUAREZ', 'guillermo.hidalgo@intelo.com.mx', NULL, '$2y$10$hYyIBhh/R2JdfMJV9P4pseHQTauTqnZUhD0UgWPTjPMCmzEs4OEu2', '1', '0', 4, NULL, 2, NULL, '2020-08-25 21:34:18', '2020-08-25 21:34:18'),
@@ -166,7 +155,6 @@ INSERT INTO `empleados` (`id`, `no_empleado`, `nombre_empleado`, `apellido_1_emp
 	(44, 'EMP-44', 'SAMUEL', 'ROJAS', 'NUÑEZ', 'samuel.rojas@intelo.com.mx', NULL, '$2y$10$7dDHi4IBChE3624lzIppAeVkebCCSUxOMmK.HFZktYd4BDC79V8uq', '1', '0', 4, NULL, 12, 'nBaKTwR1ndKt7DhQZARIi5svqABRC2m1D4JouQTZYnbZ3HfgQqiRFr3QUR55', '2020-08-25 22:58:46', '2020-08-25 22:58:46');
 /*!40000 ALTER TABLE `empleados` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.eventuals
 CREATE TABLE IF NOT EXISTS `eventuals` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre_eventual` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -189,11 +177,9 @@ CREATE TABLE IF NOT EXISTS `eventuals` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.eventuals: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `eventuals` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eventuals` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -204,11 +190,9 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.failed_jobs: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
 /*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -216,13 +200,11 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.migrations: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(13, '2020_10_22_123041_create_auditoria_cross_overs_table', 1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.paquetes
 CREATE TABLE IF NOT EXISTS `paquetes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `no_paquete` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
@@ -249,13 +231,13 @@ CREATE TABLE IF NOT EXISTS `paquetes` (
   CONSTRAINT `paquete_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   CONSTRAINT `paquete_eventual_id_foreign` FOREIGN KEY (`eventual_id`) REFERENCES `eventuals` (`id`),
   CONSTRAINT `paquete_socursal_id_foreign` FOREIGN KEY (`socursal_id`) REFERENCES `socursals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.paquetes: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `paquetes` DISABLE KEYS */;
+INSERT INTO `paquetes` (`id`, `no_paquete`, `estado_destino`, `municipio_destino`, `codigo_postal_destino`, `colonia_destino`, `calle_destino`, `no_exterior_destino`, `no_interior_destino`, `estatus_paquete`, `cliente_id`, `eventual_id`, `socursal_id`, `empleado_id`, `created_at`, `updated_at`) VALUES
+	(9, '1920201022', 'Ciudad de México', 'Álvaro Obregón', '76147', 'Valles de San José', '123', '123', NULL, '2', 6, NULL, 1, 1, '2020-10-22 17:20:40', '2020-10-22 17:20:40');
 /*!40000 ALTER TABLE `paquetes` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.password_resets
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -263,11 +245,9 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.password_resets: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.socursals
 CREATE TABLE IF NOT EXISTS `socursals` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre_socursal` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -285,7 +265,6 @@ CREATE TABLE IF NOT EXISTS `socursals` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.socursals: ~12 rows (aproximadamente)
 /*!40000 ALTER TABLE `socursals` DISABLE KEYS */;
 INSERT INTO `socursals` (`id`, `nombre_socursal`, `no_socursal`, `estado_socursal`, `municipio_socursal`, `codigo_postal_socursal`, `colonia_socursal`, `calle_socursal`, `no_exterior_socursal`, `no_interior_socursal`, `estatus_socursal`, `created_at`, `updated_at`) VALUES
 	(1, 'QUERÉTARO ACCESO 3', 'SUC-1', 'Querétaro', 'Querétaro', '76120', 'Benito Juárez', 'ACCESO 3', '14', '4 Y 5', '1', '2020-06-04 17:55:41', '2020-06-11 16:12:41'),
@@ -302,7 +281,6 @@ INSERT INTO `socursals` (`id`, `nombre_socursal`, `no_socursal`, `estado_socursa
 	(12, 'SAN LUIS POTOSI, LAGO COLON', 'SUC-12', 'San Luis Potosí', 'San Luis Potosí', '78421', 'Villa de Pozos', 'LAGO COLON', '218', NULL, '1', '2020-06-04 18:54:50', '2020-06-04 18:54:50');
 /*!40000 ALTER TABLE `socursals` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.tipo_empleados
 CREATE TABLE IF NOT EXISTS `tipo_empleados` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `descripcion_tipo_empleado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -312,7 +290,6 @@ CREATE TABLE IF NOT EXISTS `tipo_empleados` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.tipo_empleados: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_empleados` DISABLE KEYS */;
 INSERT INTO `tipo_empleados` (`id`, `descripcion_tipo_empleado`, `estatus_tipo_empleado`, `created_at`, `updated_at`) VALUES
 	(1, 'ADMINISTRADOR', '1', '2020-10-22 13:23:12', '2020-10-22 13:23:13'),
@@ -321,7 +298,6 @@ INSERT INTO `tipo_empleados` (`id`, `descripcion_tipo_empleado`, `estatus_tipo_e
 	(4, 'OPERADOR', '1', '2020-10-22 13:23:15', '2020-10-22 13:23:15');
 /*!40000 ALTER TABLE `tipo_empleados` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.tipo_transportes
 CREATE TABLE IF NOT EXISTS `tipo_transportes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `descripcion_tipo_transporte` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -331,7 +307,6 @@ CREATE TABLE IF NOT EXISTS `tipo_transportes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.tipo_transportes: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_transportes` DISABLE KEYS */;
 INSERT INTO `tipo_transportes` (`id`, `descripcion_tipo_transporte`, `estatus_tipo_transporte`, `created_at`, `updated_at`) VALUES
 	(1, 'CAMIONETA', '1', '2020-10-22 13:21:13', '2020-10-22 13:21:13'),
@@ -343,12 +318,12 @@ INSERT INTO `tipo_transportes` (`id`, `descripcion_tipo_transporte`, `estatus_ti
 	(7, 'CAJA DE 48', '1', '2020-10-22 13:21:18', '2020-10-22 13:21:20');
 /*!40000 ALTER TABLE `tipo_transportes` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.transportes
 CREATE TABLE IF NOT EXISTS `transportes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `no_transporte` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `matricula_transporte` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `no_economico_transporte` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marca_transporte` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estatus_transporte` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `estatus_asignado_empleado` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `socursal_id` bigint(20) unsigned DEFAULT NULL,
@@ -360,62 +335,61 @@ CREATE TABLE IF NOT EXISTS `transportes` (
   KEY `transportes_tipo_transporte_id_foreign` (`tipo_transporte_id`),
   CONSTRAINT `transportes_socursal_id_foreign` FOREIGN KEY (`socursal_id`) REFERENCES `socursals` (`id`),
   CONSTRAINT `transportes_tipo_transporte_id_foreign` FOREIGN KEY (`tipo_transporte_id`) REFERENCES `tipo_transportes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.transportes: ~48 rows (aproximadamente)
 /*!40000 ALTER TABLE `transportes` DISABLE KEYS */;
-INSERT INTO `transportes` (`id`, `no_transporte`, `matricula_transporte`, `no_economico_transporte`, `estatus_transporte`, `estatus_asignado_empleado`, `socursal_id`, `tipo_transporte_id`, `created_at`, `updated_at`) VALUES
-	(7, 'T-7', 'AB-1234', NULL, '1', '1', 1, 1, '2020-07-24 16:08:19', '2020-07-24 16:08:19'),
-	(8, 'T-8', 'AB-12-123', NULL, '1', '1', 1, 1, '2020-07-24 16:08:43', '2020-07-24 16:08:43'),
-	(9, 'T-9', 'EU-1-11', NULL, '1', '1', 1, 1, '2020-07-24 16:09:01', '2020-07-24 16:09:01'),
-	(10, 'T-10', 'AEE-46-91', '997', '1', '0', 1, 1, '2020-08-25 21:47:58', '2020-10-22 16:12:23'),
-	(11, 'T-11', 'ALA-91-43', NULL, '1', '0', 3, 1, '2020-08-25 21:49:04', '2020-08-25 21:55:08'),
-	(12, 'T-12', 'CZG-73-20', NULL, '1', '0', 3, 1, '2020-08-25 21:51:00', '2020-08-25 21:55:23'),
-	(13, 'T-13', 'DHJ-39-07', NULL, '1', '0', 2, 1, '2020-08-25 21:51:19', '2020-08-25 21:51:19'),
-	(14, 'T-14', 'DSE-76-20', NULL, '1', '0', 2, 1, '2020-08-25 21:51:34', '2020-08-25 21:51:34'),
-	(15, 'T-15', 'EGU-18-80', NULL, '1', '0', 2, 1, '2020-08-25 21:52:05', '2020-08-25 21:52:05'),
-	(16, 'T-16', 'FHD-21-09', NULL, '1', '0', 2, 1, '2020-08-25 21:52:23', '2020-08-25 21:52:23'),
-	(17, 'T-17', 'FSW-23-77', NULL, '1', '0', 3, 1, '2020-08-25 21:53:47', '2020-08-25 21:54:38'),
-	(18, 'T-18', 'A01-AAA', NULL, '1', '0', 3, 1, '2020-08-25 21:56:23', '2020-08-25 21:56:23'),
-	(19, 'T-19', 'GBD-72-99', NULL, '1', '0', 4, 1, '2020-08-25 21:56:40', '2020-08-25 21:56:53'),
-	(20, 'T-20', 'GPK-27-76', NULL, '1', '0', 4, 1, '2020-08-25 21:57:37', '2020-08-25 21:57:37'),
-	(21, 'T-21', 'HBZ-73-59', NULL, '1', '0', 4, 1, '2020-08-25 21:57:59', '2020-08-25 21:57:59'),
-	(22, 'T-22', 'HMK-55-16', NULL, '1', '0', 4, 1, '2020-08-25 21:59:02', '2020-08-25 21:59:02'),
-	(23, 'T-23', 'JHW-71-24', NULL, '1', '0', 5, 1, '2020-08-25 21:59:25', '2020-08-25 21:59:25'),
-	(24, 'T-24', 'MUD-83-11', NULL, '1', '0', 5, 1, '2020-08-25 22:00:09', '2020-08-25 22:00:09'),
-	(25, 'T-25', 'PRA-46-42', NULL, '1', '0', 5, 1, '2020-08-25 22:01:17', '2020-08-25 22:01:17'),
-	(26, 'T-26', 'PXP-33-53', NULL, '1', '0', 5, 1, '2020-08-25 22:01:39', '2020-08-25 22:01:39'),
-	(27, 'T-27', 'RFM-87-23', NULL, '1', '0', 6, 1, '2020-08-25 22:02:15', '2020-08-25 22:02:15'),
-	(28, 'T-28', 'SLP-93-07', NULL, '1', '0', 6, 1, '2020-08-25 22:03:35', '2020-08-25 22:03:35'),
-	(29, 'T-29', 'TKY-28-73', NULL, '1', '0', 6, 1, '2020-08-25 22:03:59', '2020-08-25 22:03:59'),
-	(30, 'T-30', 'UAC-36-34', NULL, '1', '0', 6, 1, '2020-08-25 22:04:37', '2020-08-25 22:04:37'),
-	(31, 'T-31', 'UKL-67-46', NULL, '1', '0', 7, 1, '2020-08-25 22:05:23', '2020-08-25 22:05:23'),
-	(32, 'T-32', 'UVU-017-A', NULL, '1', '0', 7, 1, '2020-08-25 22:05:44', '2020-08-25 22:05:44'),
-	(33, 'T-33', 'UWA-773-R', NULL, '1', '0', 7, 1, '2020-08-25 22:06:04', '2020-08-25 22:06:04'),
-	(34, 'T-34', 'VPK-85-46', NULL, '1', '0', 7, 1, '2020-08-25 22:09:34', '2020-08-25 22:09:34'),
-	(35, 'T-35', 'WCV-89-60', NULL, '1', '0', 8, 1, '2020-08-25 22:10:09', '2020-08-25 22:10:09'),
-	(36, 'T-36', 'WSE-83-41', NULL, '1', '0', 8, 1, '2020-08-25 22:10:30', '2020-08-25 22:10:30'),
-	(37, 'T-37', '11DB228', NULL, '1', '0', 8, 1, '2020-08-25 22:13:35', '2020-08-25 22:13:35'),
-	(38, 'T-38', '62IJ357', NULL, '1', '0', 8, 1, '2020-08-25 22:13:54', '2020-08-25 22:13:54'),
-	(39, 'T-39', '3E-6583', NULL, '1', '0', 9, 1, '2020-08-25 22:14:14', '2020-08-25 22:14:35'),
-	(40, 'T-40', 'AFD:6942', NULL, '1', '0', 9, 1, '2020-08-25 22:15:35', '2020-08-25 22:15:35'),
-	(41, 'T-41', '39-H957', NULL, '1', '0', 9, 1, '2020-08-25 22:15:55', '2020-08-25 22:15:55'),
-	(42, 'T-42', '32D 228', NULL, '1', '0', 9, 1, '2020-08-25 22:16:58', '2020-08-25 22:16:58'),
-	(43, 'T-43', 'A15 228', NULL, '1', '0', 10, 1, '2020-08-25 22:17:53', '2020-08-25 22:17:53'),
-	(44, 'T-44', '115 BHT', NULL, '1', '0', 10, 1, '2020-08-25 22:18:18', '2020-08-25 22:18:18'),
-	(45, 'T-45', '2848 EB', NULL, '1', '0', 10, 1, '2020-08-25 22:18:32', '2020-08-25 22:18:32'),
-	(46, 'T-46', 'DNH 3289', NULL, '1', '0', 10, 1, '2020-08-25 22:18:55', '2020-08-25 22:18:55'),
-	(47, 'T-47', 'FN4258', NULL, '1', '0', 11, 1, '2020-08-25 22:19:40', '2020-08-25 22:19:40'),
-	(48, 'T-48', 'DFY-14-12', NULL, '1', '0', 11, 1, '2020-08-25 22:19:55', '2020-08-25 22:19:55'),
-	(49, 'T-49', '557 AZM', NULL, '1', '0', 11, 1, '2020-08-25 22:20:13', '2020-08-25 22:20:13'),
-	(50, 'T-50', 'DSM 9067', NULL, '1', '0', 11, 1, '2020-08-25 22:20:37', '2020-08-25 22:20:37'),
-	(51, 'T-51', 'JKR:0058', NULL, '1', '0', 12, 1, '2020-08-25 22:21:33', '2020-08-25 22:21:33'),
-	(52, 'T-52', 'JAF 4852', NULL, '1', '0', 12, 1, '2020-08-25 22:21:48', '2020-08-25 22:21:48'),
-	(53, 'T-53', 'GLR 154', NULL, '1', '0', 12, 1, '2020-08-25 22:22:05', '2020-08-25 22:22:05'),
-	(54, 'T-54', 'EMN-7171', NULL, '1', '0', 12, 1, '2020-08-25 22:22:36', '2020-08-25 22:22:36');
+INSERT INTO `transportes` (`id`, `no_transporte`, `matricula_transporte`, `no_economico_transporte`, `marca_transporte`, `estatus_transporte`, `estatus_asignado_empleado`, `socursal_id`, `tipo_transporte_id`, `created_at`, `updated_at`) VALUES
+	(7, 'T-7', 'AB-1234', NULL, NULL, '1', '1', 1, 1, '2020-07-24 16:08:19', '2020-07-24 16:08:19'),
+	(8, 'T-8', 'AB-12-123', NULL, NULL, '1', '0', 1, 1, '2020-07-24 16:08:43', '2020-07-24 16:08:43'),
+	(9, 'T-9', 'EU-1-11', NULL, NULL, '1', '1', 1, 1, '2020-07-24 16:09:01', '2020-07-24 16:09:01'),
+	(10, 'T-10', 'AEE-46-91', '997', NULL, '1', '0', 1, 1, '2020-08-25 21:47:58', '2020-10-22 16:12:23'),
+	(11, 'T-11', 'ALA-91-43', NULL, NULL, '1', '0', 3, 1, '2020-08-25 21:49:04', '2020-08-25 21:55:08'),
+	(12, 'T-12', 'CZG-73-20', NULL, NULL, '1', '0', 3, 1, '2020-08-25 21:51:00', '2020-08-25 21:55:23'),
+	(13, 'T-13', 'DHJ-39-07', NULL, NULL, '1', '0', 2, 1, '2020-08-25 21:51:19', '2020-08-25 21:51:19'),
+	(14, 'T-14', 'DSE-76-20', NULL, NULL, '1', '0', 2, 1, '2020-08-25 21:51:34', '2020-08-25 21:51:34'),
+	(15, 'T-15', 'EGU-18-80', NULL, NULL, '1', '0', 2, 1, '2020-08-25 21:52:05', '2020-08-25 21:52:05'),
+	(16, 'T-16', 'FHD-21-09', NULL, NULL, '1', '0', 2, 1, '2020-08-25 21:52:23', '2020-08-25 21:52:23'),
+	(17, 'T-17', 'FSW-23-77', NULL, NULL, '1', '0', 3, 1, '2020-08-25 21:53:47', '2020-08-25 21:54:38'),
+	(18, 'T-18', 'A01-AAA', NULL, NULL, '1', '0', 3, 1, '2020-08-25 21:56:23', '2020-08-25 21:56:23'),
+	(19, 'T-19', 'GBD-72-99', NULL, NULL, '1', '0', 4, 1, '2020-08-25 21:56:40', '2020-08-25 21:56:53'),
+	(20, 'T-20', 'GPK-27-76', NULL, NULL, '1', '0', 4, 1, '2020-08-25 21:57:37', '2020-08-25 21:57:37'),
+	(21, 'T-21', 'HBZ-73-59', NULL, NULL, '1', '0', 4, 1, '2020-08-25 21:57:59', '2020-08-25 21:57:59'),
+	(22, 'T-22', 'HMK-55-16', NULL, NULL, '1', '0', 4, 1, '2020-08-25 21:59:02', '2020-08-25 21:59:02'),
+	(23, 'T-23', 'JHW-71-24', NULL, NULL, '1', '0', 5, 1, '2020-08-25 21:59:25', '2020-08-25 21:59:25'),
+	(24, 'T-24', 'MUD-83-11', NULL, NULL, '1', '0', 5, 1, '2020-08-25 22:00:09', '2020-08-25 22:00:09'),
+	(25, 'T-25', 'PRA-46-42', NULL, NULL, '1', '0', 5, 1, '2020-08-25 22:01:17', '2020-08-25 22:01:17'),
+	(26, 'T-26', 'PXP-33-53', NULL, NULL, '1', '0', 5, 1, '2020-08-25 22:01:39', '2020-08-25 22:01:39'),
+	(27, 'T-27', 'RFM-87-23', NULL, NULL, '1', '0', 6, 1, '2020-08-25 22:02:15', '2020-08-25 22:02:15'),
+	(28, 'T-28', 'SLP-93-07', NULL, NULL, '1', '0', 6, 1, '2020-08-25 22:03:35', '2020-08-25 22:03:35'),
+	(29, 'T-29', 'TKY-28-73', NULL, NULL, '1', '0', 6, 1, '2020-08-25 22:03:59', '2020-08-25 22:03:59'),
+	(30, 'T-30', 'UAC-36-34', NULL, NULL, '1', '0', 6, 1, '2020-08-25 22:04:37', '2020-08-25 22:04:37'),
+	(31, 'T-31', 'UKL-67-46', NULL, NULL, '1', '0', 7, 1, '2020-08-25 22:05:23', '2020-08-25 22:05:23'),
+	(32, 'T-32', 'UVU-017-A', NULL, NULL, '1', '0', 7, 1, '2020-08-25 22:05:44', '2020-08-25 22:05:44'),
+	(33, 'T-33', 'UWA-773-R', NULL, NULL, '1', '0', 7, 1, '2020-08-25 22:06:04', '2020-08-25 22:06:04'),
+	(34, 'T-34', 'VPK-85-46', NULL, NULL, '1', '0', 7, 1, '2020-08-25 22:09:34', '2020-08-25 22:09:34'),
+	(35, 'T-35', 'WCV-89-60', NULL, NULL, '1', '0', 8, 1, '2020-08-25 22:10:09', '2020-08-25 22:10:09'),
+	(36, 'T-36', 'WSE-83-41', NULL, NULL, '1', '0', 8, 1, '2020-08-25 22:10:30', '2020-08-25 22:10:30'),
+	(37, 'T-37', '11DB228', NULL, NULL, '1', '0', 8, 1, '2020-08-25 22:13:35', '2020-08-25 22:13:35'),
+	(38, 'T-38', '62IJ357', NULL, NULL, '1', '0', 8, 1, '2020-08-25 22:13:54', '2020-08-25 22:13:54'),
+	(39, 'T-39', '3E-6583', NULL, NULL, '1', '0', 9, 1, '2020-08-25 22:14:14', '2020-08-25 22:14:35'),
+	(40, 'T-40', 'AFD:6942', NULL, NULL, '1', '0', 9, 1, '2020-08-25 22:15:35', '2020-08-25 22:15:35'),
+	(41, 'T-41', '39-H957', NULL, NULL, '1', '0', 9, 1, '2020-08-25 22:15:55', '2020-08-25 22:15:55'),
+	(42, 'T-42', '32D 228', NULL, NULL, '1', '0', 9, 1, '2020-08-25 22:16:58', '2020-08-25 22:16:58'),
+	(43, 'T-43', 'A15 228', NULL, NULL, '1', '0', 10, 1, '2020-08-25 22:17:53', '2020-08-25 22:17:53'),
+	(44, 'T-44', '115 BHT', NULL, NULL, '1', '0', 10, 1, '2020-08-25 22:18:18', '2020-08-25 22:18:18'),
+	(45, 'T-45', '2848 EB', NULL, NULL, '1', '0', 10, 1, '2020-08-25 22:18:32', '2020-08-25 22:18:32'),
+	(46, 'T-46', 'DNH 3289', NULL, NULL, '1', '0', 10, 1, '2020-08-25 22:18:55', '2020-08-25 22:18:55'),
+	(47, 'T-47', 'FN4258', NULL, NULL, '1', '0', 11, 1, '2020-08-25 22:19:40', '2020-08-25 22:19:40'),
+	(48, 'T-48', 'DFY-14-12', NULL, NULL, '1', '0', 11, 1, '2020-08-25 22:19:55', '2020-08-25 22:19:55'),
+	(49, 'T-49', '557 AZM', NULL, NULL, '1', '0', 11, 1, '2020-08-25 22:20:13', '2020-08-25 22:20:13'),
+	(50, 'T-50', 'DSM 9067', NULL, NULL, '1', '0', 11, 1, '2020-08-25 22:20:37', '2020-08-25 22:20:37'),
+	(51, 'T-51', 'JKR:0058', NULL, NULL, '1', '0', 12, 1, '2020-08-25 22:21:33', '2020-08-25 22:21:33'),
+	(52, 'T-52', 'JAF 4852', NULL, NULL, '1', '0', 12, 1, '2020-08-25 22:21:48', '2020-08-25 22:21:48'),
+	(53, 'T-53', 'GLR 154', NULL, NULL, '1', '0', 12, 1, '2020-08-25 22:22:05', '2020-08-25 22:22:05'),
+	(54, 'T-54', 'EMN-7171', NULL, NULL, '1', '0', 12, 1, '2020-08-25 22:22:36', '2020-08-25 22:22:36'),
+	(55, 'T-55', '123PRUEBA', '123452', 'MARCA 1', '1', '0', 1, 1, '2020-11-02 18:23:19', '2020-11-02 18:24:23');
 /*!40000 ALTER TABLE `transportes` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.transporte_empleados
 CREATE TABLE IF NOT EXISTS `transporte_empleados` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `empleado_id` bigint(20) unsigned NOT NULL,
@@ -427,17 +401,14 @@ CREATE TABLE IF NOT EXISTS `transporte_empleados` (
   KEY `transporte_empleados_transporte_id_foreign` (`transporte_id`),
   CONSTRAINT `transporte_empleados_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   CONSTRAINT `transporte_empleados_transporte_id_foreign` FOREIGN KEY (`transporte_id`) REFERENCES `transportes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.transporte_empleados: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `transporte_empleados` DISABLE KEYS */;
 INSERT INTO `transporte_empleados` (`id`, `empleado_id`, `transporte_id`, `created_at`, `updated_at`) VALUES
-	(11, 5, 7, '2020-08-25 23:47:31', '2020-08-25 23:47:31'),
-	(12, 6, 8, '2020-08-31 15:02:46', '2020-08-31 15:02:46'),
-	(13, 8, 9, '2020-08-31 15:02:54', '2020-08-31 15:02:54');
+	(10, 6, 7, '2020-10-30 18:33:35', '2020-10-30 18:33:35'),
+	(12, 8, 9, '2020-10-30 18:33:51', '2020-10-30 18:33:51');
 /*!40000 ALTER TABLE `transporte_empleados` ENABLE KEYS */;
 
--- Volcando estructura para tabla intelo_pack.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -451,7 +422,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla intelo_pack.users: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
