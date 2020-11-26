@@ -18,11 +18,9 @@ CREATE TABLE IF NOT EXISTS `auditoria_cross_overs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `auditoria_cross_overs` DISABLE KEYS */;
-INSERT INTO `auditoria_cross_overs` (`id`, `paquete_id`, `socursal_id`, `empleado_operador_id`, `transporte_id`, `empleado_carga_id`, `tipo`, `created_at`, `updated_at`) VALUES
-	(13, 9, 1, 6, 7, 1, 'CARGA PAQUETE', '2020-10-30 18:34:25', '2020-10-30 18:34:25');
 /*!40000 ALTER TABLE `auditoria_cross_overs` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `clientes` (
@@ -74,12 +72,11 @@ CREATE TABLE IF NOT EXISTS `cross_overs` (
   CONSTRAINT `cross_over_paquete_id_foreign` FOREIGN KEY (`socursal_id`) REFERENCES `socursals` (`id`),
   CONSTRAINT `cross_overs_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   CONSTRAINT `cross_overs_paquete_id_foreign` FOREIGN KEY (`paquete_id`) REFERENCES `paquetes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `cross_overs` DISABLE KEYS */;
 INSERT INTO `cross_overs` (`id`, `hora_cross_over`, `fecha_cross_over`, `estatus_cross_over`, `paquete_id`, `empleado_id`, `socursal_id`, `transporte_id`, `created_at`, `updated_at`) VALUES
-	(1, '5:20:40 pm', '2020-10-22', '1', 9, 1, 1, NULL, '2020-10-22 17:20:40', '2020-10-22 17:20:40'),
-	(19, '6:34:24 pm', '2020-10-30', '2', 9, 1, 1, 7, '2020-10-30 18:34:25', '2020-10-30 18:34:25');
+	(20, '4:29:07 pm', '2020-11-26', '1', 81, 1, 1, NULL, '2020-11-26 16:29:07', '2020-11-26 16:29:07');
 /*!40000 ALTER TABLE `cross_overs` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `empleados` (
@@ -111,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `empleados` (
 
 /*!40000 ALTER TABLE `empleados` DISABLE KEYS */;
 INSERT INTO `empleados` (`id`, `no_empleado`, `nombre_empleado`, `apellido_1_empleado`, `apellido_2_empleado`, `email`, `email_verified_at`, `password`, `estatus_empleado`, `estatus_asignado_transporte`, `tipo_empleado_id`, `tipo_transporte_id`, `socursal_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'EMP-1', 'EMMANIUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'emmanuel.hernandez@intelo.com.mx', NULL, '$2y$10$xQuvtT.7uFB4nl40gI9UjOYLhZdCYGWrpwB6oygs7QudgXudg7feu', '1', '0', 1, NULL, 1, '8Hh064HgoYgSkVD4efCKUWeEb9AnoH63AN3bYqP5FkcFWlJhb2uxmbmFDfMy', '2020-06-09 13:56:12', '2020-09-18 22:41:28'),
+	(1, 'EMP-1', 'EMMANIUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'emmanuel.hernandez@intelo.com.mx', NULL, '$2y$10$xQuvtT.7uFB4nl40gI9UjOYLhZdCYGWrpwB6oygs7QudgXudg7feu', '1', '0', 1, NULL, 1, 'QXAiycB78VMFBxOCL6BgdAJVBjtRPeT2Dx3r7p71IPM1BgBdvTOYCKZYXpPb', '2020-06-09 13:56:12', '2020-09-18 22:41:28'),
 	(4, 'EMP-4', 'ULISE', 'MAYA', 'CASTILLO', 'ulises.castillo@intelo.com.mx', NULL, '$2y$10$nrqfkhfMJAFKKsg9Sr304OS6CYwsdsTpVqTTWb8sNx5LgLHRFY90K', '1', '0', 1, NULL, 2, NULL, '2020-06-10 15:02:30', '2020-06-19 15:51:42'),
 	(5, 'EMP-5', 'ERNESTO', 'MARTINEZ', 'SALAZAR', 'ernesto@intelo.com.mx', NULL, '$2y$10$NmCXkkqjwSo6LuqVS5hQ4.62XbU7s1W9xP/0LK.MBc0GXrZa.XLsa', '1', '0', 4, NULL, 1, NULL, '2020-07-07 16:13:39', '2020-07-07 16:13:39'),
 	(6, 'EMP-6', 'MIGUEL', 'GOMEZ', 'HERNANDEZ', 'miguel.gomez@intelo.com.mx', NULL, '$2y$10$g91kGf3EFiZ7uOW4dg2erehkN8Nlb243GCN6d3vRaPIvMNcSrVsIm', '1', '1', 4, NULL, 1, NULL, '2020-07-07 16:15:51', '2020-07-07 16:15:51'),
@@ -175,9 +172,18 @@ CREATE TABLE IF NOT EXISTS `eventuals` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `eventuals` DISABLE KEYS */;
+INSERT INTO `eventuals` (`id`, `nombre_eventual`, `apellido_1_eventual`, `apellido_2_eventual`, `razon_social`, `rfc_eventual`, `estado_eventual`, `municipio_eventual`, `codigo_postal_eventual`, `colonia_eventual`, `calle_eventual`, `no_exterior_eventual`, `no_interior_eventual`, `correo_eventual`, `telefono_1_eventual`, `telefono_2_eventual`, `created_at`, `updated_at`) VALUES
+	(24, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'Buenos Aires', '4', '1', NULL, 'emmanuel.hernandez@intelo.com.mx', '4423058637', NULL, '2020-11-23 17:38:26', '2020-11-23 17:38:26'),
+	(25, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:30:23', '2020-11-26 13:30:23'),
+	(26, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Ciudad de México', 'Álvaro Obregón', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:35:01', '2020-11-26 13:35:01'),
+	(27, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Ciudad de México', 'Álvaro Obregón', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:35:32', '2020-11-26 13:35:32'),
+	(28, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Ciudad de México', 'Álvaro Obregón', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:35:42', '2020-11-26 13:35:42'),
+	(29, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:40:35', '2020-11-26 13:40:35'),
+	(30, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:41:09', '2020-11-26 13:41:09'),
+	(31, 'EMMANUEL ALVARO', 'RODRIGUEZ', 'HERNANDEZ', 'EMMANUEL SA DE CV', 'ROHE969325MYS', 'Querétaro', 'Querétaro', '76147', 'Valles de San José', '4', '127', NULL, 'manejetskate@gmail.com', '4423058637', NULL, '2020-11-26 13:48:32', '2020-11-26 13:48:32');
 /*!40000 ALTER TABLE `eventuals` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
@@ -207,6 +213,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE IF NOT EXISTS `paquetes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `consecutivo_paquete` int(11) DEFAULT NULL,
   `no_paquete` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `estado_destino` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `municipio_destino` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -231,11 +238,11 @@ CREATE TABLE IF NOT EXISTS `paquetes` (
   CONSTRAINT `paquete_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   CONSTRAINT `paquete_eventual_id_foreign` FOREIGN KEY (`eventual_id`) REFERENCES `eventuals` (`id`),
   CONSTRAINT `paquete_socursal_id_foreign` FOREIGN KEY (`socursal_id`) REFERENCES `socursals` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `paquetes` DISABLE KEYS */;
-INSERT INTO `paquetes` (`id`, `no_paquete`, `estado_destino`, `municipio_destino`, `codigo_postal_destino`, `colonia_destino`, `calle_destino`, `no_exterior_destino`, `no_interior_destino`, `estatus_paquete`, `cliente_id`, `eventual_id`, `socursal_id`, `empleado_id`, `created_at`, `updated_at`) VALUES
-	(9, '1920201022', 'Ciudad de México', 'Álvaro Obregón', '76147', 'Valles de San José', '123', '123', NULL, '2', 6, NULL, 1, 1, '2020-10-22 17:20:40', '2020-10-22 17:20:40');
+INSERT INTO `paquetes` (`id`, `consecutivo_paquete`, `no_paquete`, `estado_destino`, `municipio_destino`, `codigo_postal_destino`, `colonia_destino`, `calle_destino`, `no_exterior_destino`, `no_interior_destino`, `estatus_paquete`, `cliente_id`, `eventual_id`, `socursal_id`, `empleado_id`, `created_at`, `updated_at`) VALUES
+	(81, 1, '00120201126001001', 'Ciudad de México', 'Álvaro Obregón', '01040', 'Campestre', 'Campestre', '12', NULL, '1', 6, NULL, 1, 1, '2020-11-26 16:29:07', '2020-11-26 16:29:07');
 /*!40000 ALTER TABLE `paquetes` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `password_resets` (
