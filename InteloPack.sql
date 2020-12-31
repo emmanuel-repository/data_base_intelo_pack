@@ -248,11 +248,11 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(13, '2020_10_22_123041_create_auditoria_cross_overs_table', 1);
+	(1, '2020_12_29_112902_create_visitas_table', 1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `paquetes` (
@@ -296,13 +296,6 @@ INSERT INTO `paquetes` (`id`, `consecutivo_paquete`, `no_paquete`, `estado_desti
 	(8, 4, '00120201211001004', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5', NULL, NULL, NULL, 1, '2020-12-11 17:26:20', '2020-12-11 17:26:20'),
 	(9, 5, '00120201211001005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5', NULL, NULL, NULL, 1, '2020-12-11 17:26:20', '2020-12-11 17:26:20');
 /*!40000 ALTER TABLE `paquetes` ENABLE KEYS */;
-
-CREATE TABLE IF NOT EXISTS `paquete_cargamento` (
-  `Columna 1` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*!40000 ALTER TABLE `paquete_cargamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paquete_cargamento` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -490,6 +483,21 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+CREATE TABLE IF NOT EXISTS `visitas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion_visita` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fecha_visita` varchar(22) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paquete_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `visitas_paquete_id_foreign` (`paquete_id`),
+  CONSTRAINT `visitas_paquete_id_foreign` FOREIGN KEY (`paquete_id`) REFERENCES `paquetes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*!40000 ALTER TABLE `visitas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `visitas` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
